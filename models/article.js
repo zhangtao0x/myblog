@@ -1,9 +1,9 @@
 var mongodb = require('./db');
-var flash   = require('connect-flash');
+var markdown = require('markdown').markdown;
+// var flash   = require('connect-flash');
 function Article(article){
 	this.name = article.name;
 	this.title = article.title;
-	// this.time = article.time;
 	this.post = article.post;
 };
 
@@ -15,9 +15,9 @@ Article.prototype.save = function(callback){
 		date:date,
 		year:date.getFullYear(),
 		month:date.getFullYear()+"-"+(date.getMonth()+1),
-		day: date.getFullYear()+"-"+(date.getMonth()+1)+
+		day: date.getFullYear()+"-"+(date.getMonth()+1)+"-"+
 		     date.getDate(),
-		minute: date.getFullYear()+"-"+(date.getMonth()+1)+
+		minute: date.getFullYear()+"-"+(date.getMonth()+1)+"-"+
 		     date.getDate()+"-"+date.getHours()+":"+
 		     (date.getMinutes() < 10 ? '0' + date.getMinutes():date.getMinutes())
 	}
@@ -52,7 +52,7 @@ Article.prototype.save = function(callback){
 };
 
 
-Article.get = function(name,callback){
+Article.getAll = function(name,callback){
 	//打开数据库
 	mongodb.open(function(err,db){
 		if(err){
@@ -78,8 +78,40 @@ Article.get = function(name,callback){
 				if(err){
 					return callback(err);
 				}
-
+				docs.forEach(function(doc){
+					doc.post = markdown.toHTML(doc.post);
+				})
 				callback(null,docs);
+			});
+		});
+	});
+}
+
+Article.getOne = function(minute,title,callback){
+	//打开数据库
+	mongodb.open(function(err,db){
+		if(err){
+			return callback(err);
+		}
+
+		//读取article集合
+		db.collection('article',function(err,collection){
+			if(err){
+				mongodb.close();
+				return callback(err);
+			}
+			
+			collection.findOne({
+				"time.minute": minute,
+				"title":title
+			},function(err,doc){
+				mongodb.close();
+				if(err){
+					return callback(err);
+				}
+				console.log(doc);
+				doc.post = markdown.toHTML(doc.post);
+				callback(null,doc);
 			});
 		});
 	});

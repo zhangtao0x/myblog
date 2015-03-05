@@ -12,7 +12,7 @@ module.exports = router;*/
 
 module.exports=function(app){
 	app.get('/',function(req,res){
-		Article.get(null,function(err,posts){
+		Article.getAll(null,function(err,posts){
 			if(err){
 				posts=[];
 			}
@@ -38,8 +38,9 @@ module.exports=function(app){
 	})
 
 	app.post('/post',function(req,res){
-		var post = new Article('',req.body.title,req.body.post);
-		console.log(post.title);
+		// console.log(req.body);
+		var post = new Article({name:'',title:req.body.title,post:req.body.post});
+		// console.log(post.title);
 		post.save(function(err){
 			if(err){
 				// req.flash('error',err);
@@ -50,4 +51,28 @@ module.exports=function(app){
 			res.redirect('/');
 		})
 	})
+
+	app.get('/upload',function(req,res){
+		res.render('upload',{
+			title:'文件上传'
+		});
+	});
+
+	app.post('/upload',function(req,res){
+		res.redirect('/');
+	});
+
+	app.get('/u/:minute/:title',function(req,res){
+		Article.getOne(req.params.minute,req.params.title,function(err,post){
+			if(err){
+				return res.redirect('/');
+			}
+			res.render('article',{
+				title:req.params.title,
+				post:post
+			});
+		})
+		
+	});
+
 }

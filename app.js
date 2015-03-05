@@ -11,6 +11,16 @@ var users = require('./routes/users');
 
 var app = express();
 
+//upload file
+var multer = require('multer');
+
+app.use(multer({
+  dest: './public/images',
+  rename: function(fieldname,filename){
+    return filename;
+  }
+}));
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
