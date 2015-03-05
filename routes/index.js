@@ -1,7 +1,7 @@
 var express = require('express');
 var router  = express.Router();
 var Article = require('../models/article.js');
-var flash   = require('connect-flash');
+// var flash   = require('connect-flash');
 /*
 /* GET home page. *//*
 router.get('/', function(req, res, next) {
@@ -18,7 +18,7 @@ module.exports=function(app){
 			}
 			res.render('index',{
 				title:'主页',
-				posts:posts,
+				posts:posts
 				// success:req.flash('success').toString,
 				// error:req.flash('error').toString
 			})
@@ -43,11 +43,10 @@ module.exports=function(app){
 		// console.log(post.title);
 		post.save(function(err){
 			if(err){
-				// req.flash('error',err);
+				req.flash('error',err);
 				return res.redirect('/');
 			}
-
-			// req.flash('success','发表成功');
+			req.flash('success','发表成功');
 			res.redirect('/');
 		})
 	})
@@ -55,6 +54,8 @@ module.exports=function(app){
 	app.get('/upload',function(req,res){
 		res.render('upload',{
 			title:'文件上传'
+			// success:req.flash('success').toString(),
+			// error:req.flash('error').toString()
 		});
 	});
 
@@ -65,11 +66,15 @@ module.exports=function(app){
 	app.get('/u/:minute/:title',function(req,res){
 		Article.getOne(req.params.minute,req.params.title,function(err,post){
 			if(err){
+				req.flash('error',err);
 				return res.redirect('/');
 			}
+			req.flash('success','success');
 			res.render('article',{
 				title:req.params.title,
-				post:post
+				post:post,
+				// success:req.flash('success').toString(),
+				// error:req.flash('error').toString()
 			});
 		})
 		

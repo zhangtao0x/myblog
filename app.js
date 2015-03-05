@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var flash = require('express-flash');
 var routes = require('./routes/index');
 var settings = require('./settings');
 var users = require('./routes/users');
@@ -49,6 +49,8 @@ app.use(session({
     port:settings.port
   })
 }))
+
+app.use(flash());
 // app.listen(3000,function(){
 //   console.log('Express server listening on port '+3000);
 // });
