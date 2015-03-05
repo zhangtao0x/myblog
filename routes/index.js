@@ -43,7 +43,7 @@ module.exports=function(app){
 		// console.log(post.title);
 		post.save(function(err){
 			if(err){
-				req.flash('error',err);
+				// req.flash('error',err);
 				return res.redirect('/');
 			}
 			req.flash('success','发表成功');
@@ -66,10 +66,10 @@ module.exports=function(app){
 	app.get('/u/:minute/:title',function(req,res){
 		Article.getOne(req.params.minute,req.params.title,function(err,post){
 			if(err){
-				req.flash('error',err);
+				// req.flash('error',err);
 				return res.redirect('/');
 			}
-			req.flash('success','success');
+			// req.flash('success','success');
 			res.render('article',{
 				title:req.params.title,
 				post:post,
@@ -79,5 +79,18 @@ module.exports=function(app){
 		})
 		
 	});
+
+	app.get('/edit/:minute/:title',function(req,res){
+		// console.log("title:=================>"+req.params.title)
+		Article.edit(req.params.minute,req.params.title,function(err,post){
+			if(err){
+				return res.redirect('back');
+			}
+			res.render('edit',{
+				title:'编辑',
+				post:post
+			})
+		})
+	})
 
 }

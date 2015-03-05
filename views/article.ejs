@@ -1,4 +1,7 @@
 <%- include header %>
+<p>
+	<span><a class="edit" href="/edit/<%= post.time.minute %>/<%= post.title %>">编辑</a></span>
+	<span><a class="edit" href="/remove/<%= post.time.minute %>/<%= post.title %>">删除</a></span>
 <p class="info">
 	日期: <%= post.time.minute %>
 </p>

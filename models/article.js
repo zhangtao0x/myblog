@@ -116,3 +116,57 @@ Article.getOne = function(minute,title,callback){
 		});
 	});
 }
+
+Article.edit = function(minute,title,callback){
+	mongodb.open(function(err,db){
+		if(err){
+			return callback(err);
+		}
+
+		db.collection('article',function(err,collection){
+			if(err){
+				mongodb.close();
+				return callback(err);
+			}
+
+			collection.findOne({
+				"time.minute":minute,
+				"title":title
+			},function(err,doc){
+				mongodb.close();
+				if(err){
+					return callback(err);
+				}
+				callback(null,doc);
+			})
+		})
+	})
+}
+
+Article.update = function(minute,title,post,callback){
+	mongodb.open(function(err,db){
+		if(err){
+			return callback(err);
+		}
+
+		db.collection('posts',function(err,collection){
+			if(err){
+				mongodb.close();
+				return callback(err);
+			}
+
+			collection.update({
+				"time.minute":minute,
+				"title":title
+			},{
+				$set: {post:post}
+			},function(err){
+				mongodb.close();
+				if(err){
+					return callback(err);
+				}
+				callback(null);
+			})
+		})
+	})
+}
