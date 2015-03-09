@@ -52,7 +52,7 @@ Article.prototype.save = function(callback){
 };
 
 
-Article.getAll = function(name,callback){
+Article.getTen = function(name,page,callback){
 	//打开数据库
 	mongodb.open(function(err,db){
 		if(err){
@@ -70,18 +70,23 @@ Article.getAll = function(name,callback){
 				query.name=name;
 			}
 
-			collection.find(query).sort({
-				time:-1
-			}).toArray(function(err,docs){
-				mongodb.close();
+			collection.count(query,function(err,total){
+				collection.find(query, {
+					skip:(page-1)*10,
+					limit:10
+				}).sort({
+					time:-1
+				}).toArray(function(err,docs){
+					mongodb.close();
+					if(err){
+						return callback(err);
+					}
 
-				if(err){
-					return callback(err);
-				}
-				docs.forEach(function(doc){
-					doc.post = markdown.toHTML(doc.post);
+					docs.forEach(function(doc){
+						doc.post = markdown.toHTML(doc.post);
+					});
+					callback(null,docs,total);
 				})
-				callback(null,docs);
 			});
 		});
 	});
@@ -149,7 +154,7 @@ Article.update = function(minute,title,post,callback){
 			return callback(err);
 		}
 
-		db.collection('posts',function(err,collection){
+		db.collection('article',function(err,collection){
 			if(err){
 				mongodb.close();
 				return callback(err);
@@ -166,6 +171,62 @@ Article.update = function(minute,title,post,callback){
 					return callback(err);
 				}
 				callback(null);
+			})
+		})
+	})
+}
+
+Article.remove = function(minute,title,callback){
+	mongodb.open(function(err,db){
+		if(err){
+			return callback(err);
+		}
+
+		db.collection('article',function(err,collection){
+			if(err){
+				mongodb.close();
+				return callback(err);
+			}
+
+			collection.remove({
+				"time.minute":minute,
+				"title":title
+			},{w:1},function(err){
+				mongodb.close();
+				if(err){
+					return callback(err);
+				}
+				callback(null);
+			})
+		})
+	})
+}
+
+Article.search = function(keyword,callback){
+	mongodb.open(function(err,db){
+		if(err){
+			return callback(err);
+		}
+		db.collection("article",function(err,collection){
+			if(err){
+				mongodb.close();
+				return callback(err);
+			}
+			var pattern = new RegExp(keyword,'i');
+			collection.find({
+				"title":pattern
+			},{
+				// "name":1,
+				"time":1,
+				"title":1
+			}).sort({
+				time:-1
+			}).toArray(function(err,docs){
+				mongodb.close();
+				if(err){
+					return callback(err);
+				}
+				callback(null,docs);
 			})
 		})
 	})

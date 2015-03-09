@@ -12,15 +12,18 @@ module.exports = router;*/
 
 module.exports=function(app){
 	app.get('/',function(req,res){
-		Article.getAll(null,function(err,posts){
+		var page = req.query.p ? parseInt(req.query.p) : 1;
+		Article.getTen(null,page,function(err,posts,total){
 			if(err){
 				posts=[];
 			}
 			res.render('index',{
 				title:'主页',
 				posts:posts,
-				success:req.flash('success').toString(),
-				error:req.flash('error').toString()
+				page:page,
+				isFirstPage: (page -1) == 0,
+				isLastPage: ((page - 1) * 10 + posts.length) == total,
+				flash: req.flash('info').toString()
 			})
 		})
 	});
@@ -29,9 +32,24 @@ module.exports=function(app){
 		res.render('article',{title: '文章'});
 	})
 
+	app.get('/search', function(req,res){
+		Article.search(req.query.keyword,function(err,posts){
+			if(err){
+				req.flash('info',err);
+				return res.redirect('/');
+			}
+			res.render('search',{
+				title:"SEARCH:"+req.query.keyword,
+				posts:posts,
+				flash:req.flash('info').toString()
+			})
+		})
+	})
+
 	app.get('/post',function(req,res){
 		res.render('post',{
-			title:'发表'
+			title:'发表',
+			flash: req.flash('info').toString()
 		})
 	})
 
@@ -41,10 +59,10 @@ module.exports=function(app){
 		// console.log(post.title);
 		post.save(function(err){
 			if(err){
-				req.flash('error',err);
+				req.flash('info',err);
 				return res.redirect('/');
 			}
-			req.flash('success','发表成功');
+			req.flash('info','发表成功');
 			res.redirect('/');
 			})
 	})
@@ -52,28 +70,25 @@ module.exports=function(app){
 	app.get('/upload',function(req,res){
 		res.render('upload',{
 			title:'文件上传',
-			success:req.flash('success').toString(),
-			error:req.flash('error').toString()
+			flash: req.flash('info').toString()
 		});
 	});
 
 	app.post('/upload',function(req,res){
-		req.flash('success','上传成功');
+		req.flash('info','上传成功');
 		res.redirect('/');
 	});
 
 	app.get('/u/:minute/:title',function(req,res){
 		Article.getOne(req.params.minute,req.params.title,function(err,post){
 			if(err){
-				req.flash('error',err);
+				req.flash('info',err);
 				return res.redirect('/');
 			}
-			req.flash('success','success');
 			res.render('article',{
 				title:req.params.title,
 				post:post,
-				success:req.flash('success').toString(),
-				error:req.flash('error').toString()
+				flash: req.flash('info').toString()
 			});
 		})
 		
@@ -87,9 +102,38 @@ module.exports=function(app){
 			}
 			res.render('edit',{
 				title:'编辑',
-				post:post
+				post:post,
+				flash: req.flash('info').toString()
 			})
 		})
 	})
+
+	app.post('/edit/:minute/:title',function(req,res){
+		Article.update(req.params.minute,req.params.title,req.body.post,function(err){
+			var url = encodeURI('/u/'  + req.params.minute + '/' + req.params.title);
+			if(err){
+				req.flash('info',err);
+				return res.redirect(url);
+			}
+			req.flash('info','修改成功');
+			res.redirect(url);
+		})
+	})
+
+	app.get('/remove/:minute/:title',function(req,res){
+		Article.remove(req.params.minute, req.params.title,function(err){
+			console.log(err);
+			if(err){
+				req.flash('info',err);
+				return res.redirect('back');
+			}
+			req.flash('info',"删除成功");
+			res.redirect('/');
+		})
+	})
+
+	app.use(function (req, res) {
+	  res.render("404");
+	});
 
 }

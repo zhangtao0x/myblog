@@ -1,25 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8" />
-<title>Blog</title>
-<link rel="stylesheet" href="/stylesheets/style.css">
-</head>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Blog</title>
+		<link rel="stylesheet" href="/stylesheets/style.css">
+	</head>
 <body>
 
 <header>
-<h1><%= title %></h1>
+	<h1><%= title %></h1>
 </header>
 
 <nav>
-<span><a title="主页" href="/">home</a></span>
-<a title="上传" href="/upload">upload</a>
+	<span><a title="主页" href="/">home</a></span>
+	<a title="上传" href="/upload">upload</a>
+	<span><form action="/search" method="GET"><input type="text" name="keyword" placeholder="SEARCH" class="search" /></form></span>
 </nav>
 
 <article>
-<% if (success) { %>
-  <div><%= success %></div>
-<% } %>
-<% if (error) { %>
-  <div><%= error %> </div>
+
+<% if (flash && typeof flash == 'string') { %>
+	<div><%= flash %></div>
 <% } %>

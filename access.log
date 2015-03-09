@@ -1,0 +1,4 @@
+::ffff:127.0.0.1 - - [Mon, 09 Mar 2015 08:12:24 GMT] "GET / HTTP/1.1" 304 - "-" "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36"
+::ffff:127.0.0.1 - - [Mon, 09 Mar 2015 08:12:24 GMT] "GET /stylesheets/style.css HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36"
+::ffff:127.0.0.1 - - [Mon, 09 Mar 2015 08:12:56 GMT] "GET /u/2015-3-9-14:31/10 HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36"
+::ffff:127.0.0.1 - - [Mon, 09 Mar 2015 08:12:56 GMT] "GET /stylesheets/style.css HTTP/1.1" 304 - "http://localhost:3000/u/2015-3-9-14:31/10" "Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36"
