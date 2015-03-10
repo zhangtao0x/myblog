@@ -1,3 +1,5 @@
+var crypto  = require('crypto');
+var User    = require('../models/user.js')
 var express = require('express');
 var router  = express.Router();
 var Article = require('../models/article.js');
@@ -27,6 +29,19 @@ module.exports=function(app){
 			})
 		})
 	});
+
+	app.get('/login',function(req,res){
+		res.render('login',
+			{
+				title: '登录',
+				user: req.session.user,
+				flash: req.flash('info').toString()
+			})
+	})
+
+	app.post('/login',function(req,res){
+
+	})
 
 	app.get('/article',function(req,res){
 		res.render('article',{title: '文章'});

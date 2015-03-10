@@ -1,7 +1,7 @@
 <%- include header %>
 <% posts.forEach(function (post, index) { %>
-  <p><h2><a href="u/<%= post.time.minute %>/<%= post.title %>"><%= post.title %></a></h2></p>
-  <p class="info">
+  <p><h2 align="center"><%= post.name %><a href="u/<%= post.time.minute %>/<%= post.title %>"><%= post.title %></a></h2></p>
+  <p align="center" class="info">
     日期：<%= post.time.minute %>
   </p>
   <!-- <p><%- post.post %></p> -->
