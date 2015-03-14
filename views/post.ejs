@@ -1,4 +1,31 @@
-<%- include header %>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Blog</title>
+		<link rel="stylesheet" href="/stylesheets/style.css">
+	</head>
+<body>
+
+<header>
+	<h1><%= title %></h1>
+</header>
+
+<nav>
+	<span>
+		<a title="登录" href="/login">登录</a>
+		<a title="主页" href="/">主页</a>
+		<a  title="上传" href="/upload">上传</a>
+	</span>
+
+	<span align="right"><form action="/search" method="GET"><input type="text" name="keyword" placeholder="SEARCH" class="search" /></form></span>
+</nav>
+
+<article>
+
+<% if (flash && typeof flash == 'string') { %>
+	<div><%= flash %></div>
+<% } %>
 <form method="post">
   标题:<br />
   <input type="text" name="title" /><br />
