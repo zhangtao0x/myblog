@@ -74,8 +74,8 @@ module.exports=function(app){
 		})
 	})
 
+	app.get('/post',checkLogin);
 	app.get('/post',function(req,res){
-
 		res.render('post',{
 			title:'发表',
 			flash: req.flash('info').toString()
@@ -165,4 +165,14 @@ module.exports=function(app){
 	  res.render("404");
 	});
 
+
+	function checkLogin(req,res,next){
+		if(!req.session.user){
+			req.flash('info',"未登录!");
+			req.redirect('/login');
+		}
+		next();
+	}
 }
+
+
