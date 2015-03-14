@@ -40,7 +40,20 @@ module.exports=function(app){
 	})
 
 	app.post('/login',function(req,res){
+		User.get(req.body.name,function(err,user){
+			if(!user){
+				req.flash('info','用户不存在');
+				return res.redirect('/login');
+			}
 
+			if(user.password != password){
+				req.flash('info','密码错误');
+			}
+
+			req.session.user = user;
+			req.info('登录成功!');
+			res.redirect('/post');
+		})
 	})
 
 	app.get('/article',function(req,res){
@@ -62,6 +75,7 @@ module.exports=function(app){
 	})
 
 	app.get('/post',function(req,res){
+
 		res.render('post',{
 			title:'发表',
 			flash: req.flash('info').toString()
