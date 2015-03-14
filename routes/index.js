@@ -169,7 +169,7 @@ module.exports=function(app){
 	function checkLogin(req,res,next){
 		if(!req.session.user){
 			req.flash('info',"未登录!");
-			req.redirect('/login');
+			res.redirect('/login');
 		}
 		next();
 	}
