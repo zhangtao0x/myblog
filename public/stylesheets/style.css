@@ -6,6 +6,42 @@ body {
 a {
   color: #00B7FF;
 }
+a#regist
+{
+	
+}
+
+div#headmenu
+{
+height: 55px;
+width: 1100px;
+margin: 0 0 0 12px;
+padding: 0;
+border: 0;
+background: #fff;
+}
+
+ul#menulist
+{
+	list-style-type: none;
+	margin:0;
+	padding: 0;
+	overflow: hidden;
+}
+div#headmenu ul#menulist li
+{
+	/*display: inline;*/
+	float:left;
+	/*margin:0;
+	padding:0;
+	list-style:none;
+	position:absolute;
+	top:0;*/
+}
+div#headmenu ul#menulist li a{
+	display:block;
+	width:50px;
+}
 
 .edit{margin:3px;padding:2px 5px;border-radius:3px;background-color:#f3f3f3;color:#333;font-size:13px;}
 .edit:hover{text-decoration:none;background-color:#f00;color:#fff;-webkit-transition:color .2s linear;}

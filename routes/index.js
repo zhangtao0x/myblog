@@ -30,6 +30,14 @@ module.exports=function(app){
 		})
 	});
 
+	app.get('/reg',function(req,res){
+		res.render('reg',
+		{
+			title:'注册',
+			flash: req.flash('info').toString()
+		})
+	})
+
 	app.get('/login',function(req,res){
 		res.render('login',
 			{
