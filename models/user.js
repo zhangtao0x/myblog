@@ -15,7 +15,7 @@ User.get = function(name,callback){
 			return callback(err);
 		}
 
-		db.collection('article',function(err,collection){
+		db.collection('user',function(err,collection){
 			if(err){
 				mongodb.close();
 				return callback(err);

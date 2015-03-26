@@ -114,7 +114,7 @@ Article.getOne = function(minute,title,callback){
 				if(err){
 					return callback(err);
 				}
-				console.log(doc);
+				// console.log(doc);
 				doc.post = markdown.toHTML(doc.post);
 				callback(null,doc);
 			});
