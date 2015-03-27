@@ -4,7 +4,7 @@ function User(user){
 	this.name = user.name;
 	this.password = user.password;
 	this.email = user.email;
-	this.access = user.access;
+	this.access = 0;
 }
 
 module.exports = User;
