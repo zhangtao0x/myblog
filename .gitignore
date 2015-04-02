@@ -1,5 +1,7 @@
 build/
 
+bower_components/
+
 images/
 
 *.log
