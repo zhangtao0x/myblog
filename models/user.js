@@ -1,7 +1,7 @@
 var mongodb = require('./db');
 
 function User(user){
-	this.name = "";
+	this.name = user.name;
 	this.password = user.password;
 	this.email = user.email;
 	this.access = 0;
@@ -22,7 +22,7 @@ User.prototype.save = function(user,callback){
 				return callback(err);
 			}
 			collection.insert({
-				name:"",
+				name:user.name,
 				email:user.email,
 				password:user.password,
 				access:0,

@@ -30,54 +30,54 @@ module.exports=function(app){
 		})
 	});
 
-	app.get('/reg',function(req,res){
-		res.render('reg',
-		{
-			title:'注册',
-			flash: req.flash('info').toString()
-		})
-	})
+	// app.get('/reg',function(req,res){
+	// 	res.render('reg',
+	// 	{
+	// 		title:'注册',
+	// 		flash: req.flash('info').toString()
+	// 	})
+	// })
 
-	app.post('/reg',function(req,res){
-		// console.log('register');
-		var email = req.body.email,
-			password = req.body.password,
-			password_repeat = req.body['password-repeat'];
-			// console.log(password,password_repeat);
-		if(password !== password_repeat){
-			req.flash('info','两次输入密码不一致');
-			return res.redirect('/reg');
-		}
-		var md5 = crypto.createHash('md5');
-		var password = md5.update(req.body.password).digest('hex');
+	// app.post('/reg',function(req,res){
+	// 	// console.log('register');
+	// 	var email = req.body.email,
+	// 		password = req.body.password,
+	// 		password_repeat = req.body['password-repeat'];
+	// 		// console.log(password,password_repeat);
+	// 	if(password !== password_repeat){
+	// 		req.flash('info','两次输入密码不一致');
+	// 		return res.redirect('/reg');
+	// 	}
+	// 	var md5 = crypto.createHash('md5');
+	// 	var password = md5.update(req.body.password).digest('hex');
 
-		var newUser = new User({
-			// name:""
-			email:email,
-			password:password
-		})
-		console.log(newUser);
-		User.get(newUser,function(err,user){
-			if(err){
-				req.flash('info',JSON.stringify(err));
-				return res.redirect('/');
-			}
-			if(user){
-				req.flash('info','用户已存在');
-				return res.redirect('/reg');
-			}
+	// 	var newUser = new User({
+	// 		// name:""
+	// 		email:email,
+	// 		password:password
+	// 	})
+	// 	console.log(newUser);
+	// 	User.get(newUser,function(err,user){
+	// 		if(err){
+	// 			req.flash('info',JSON.stringify(err));
+	// 			return res.redirect('/');
+	// 		}
+	// 		if(user){
+	// 			req.flash('info','用户已存在');
+	// 			return res.redirect('/reg');
+	// 		}
 
-			newUser.save(newUser,function(err,user){
-				if(err){
-					req.flash('info',JSON.stringify(err));
-					return res.redirect('/reg');
-				}
-				req.session.user = user;
-				req.flash('info','注册成功');
-				res.redirect('/');
-			})
-		})
-	})
+	// 		newUser.save(newUser,function(err,user){
+	// 			if(err){
+	// 				req.flash('info',JSON.stringify(err));
+	// 				return res.redirect('/reg');
+	// 			}
+	// 			req.session.user = user;
+	// 			req.flash('info','注册成功');
+	// 			res.redirect('/');
+	// 		})
+	// 	})
+	// })
 
 	app.get('/login',function(req,res){
 		res.render('login',
@@ -89,6 +89,9 @@ module.exports=function(app){
 	})
 
 	app.post('/login',function(req,res){
+		// req.flash('info',req.body);
+		// res.redirect("/");
+		console.log(req.body);
 		User.get(req.body.name,function(err,user){
 			if(!user){
 				req.flash('info','用户不存在');
