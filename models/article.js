@@ -23,7 +23,7 @@ Article.prototype.save = function(callback){
 	}
 	//存入数据库的数据
 	var article = {
-		name: this.name,
+		name: zoro,
 		time: time,
 		title:this.title,
 		post:this.post
