@@ -126,7 +126,7 @@ module.exports=function(app){
 		})
 	})
 
-	app.get('/post',checkLogin);
+	app.get('/post',checkNotLogin);
 	app.get('/post',function(req,res){
 		res.render('post',{
 			title:'发表',
@@ -222,6 +222,16 @@ module.exports=function(app){
 		if(!req.session.user){
 			req.flash('info',"未登录!");
 			res.redirect('/login');
+			return；
+		}
+		next();
+	}
+
+	function checkNotLogin(req,res,next){
+		if(req.session.user){
+			req.flash('info','已登录!');
+			req.redirect('back');
+			return;
 		}
 		next();
 	}
