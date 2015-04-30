@@ -112,7 +112,7 @@ module.exports=function(app){
 	})
 
 	app.get('/blog',function(req,res){
-		res.render('article',{title: '文章'});
+		res.render('blog',{title: '文章'});
 	})
 
 	app.get('/search', function(req,res){
