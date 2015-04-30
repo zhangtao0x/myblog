@@ -84,7 +84,7 @@ module.exports=function(app){
 			{
 				title: '登录',
 				user: req.session.user,
-				flash: req.flash('info').toString()
+				// flash: req.info('登录成功')
 			})
 	})
 
@@ -94,16 +94,19 @@ module.exports=function(app){
 		console.log(req.body);
 		User.get(req.body.name,function(err,user){
 			if(!user){
-				req.flash('info','用户不存在');
+				// req.flash('info','用户不存在');
+				req.info('用户不存在');
 				return res.redirect('/login');
 			}
 
 			if(user.password != password){
-				req.flash('info','密码错误');
+				// req.flash('info','密码错误');
+				req.info('密码错误');
 			}
 
 			req.session.user = user;
-			req.info('登录成功!');
+			// req.info('登录成功!');
+			req.flash('info','登录成功');
 			res.redirect('/post');
 		})
 	})
