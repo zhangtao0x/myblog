@@ -78,7 +78,7 @@ module.exports=function(app){
 	// 		})
 	// 	})
 	// })
-
+	
 	app.get('/login',function(req,res){
 		res.render('login',
 			{
@@ -225,7 +225,7 @@ module.exports=function(app){
 		if(!req.session.user){
 			req.flash('info',"未登录!");
 			res.redirect('/login');
-			return；
+			return;
 		}
 		next();
 	}
