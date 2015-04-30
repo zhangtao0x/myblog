@@ -91,7 +91,7 @@ module.exports=function(app){
 	app.post('/login',function(req,res){
 		// req.flash('info',req.body);
 		// res.redirect("/");
-		console.log(req.body);
+		// console.log(req.body);
 		User.get(req.body.name,function(err,user){
 			if(!user){
 				// req.flash('info','用户不存在');
@@ -111,7 +111,7 @@ module.exports=function(app){
 		})
 	})
 
-	app.get('/article',function(req,res){
+	app.get('/blog',function(req,res){
 		res.render('article',{title: '文章'});
 	})
 
